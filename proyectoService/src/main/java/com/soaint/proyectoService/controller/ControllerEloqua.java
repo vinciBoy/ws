@@ -19,7 +19,7 @@ public class ControllerEloqua {
     @RequestMapping(value="/eliminar/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<String> BorrarPorId(@PathVariable("id") long id) throws Exception {
 
-    	service_eloqua.eliminar(id);
+    	service_eloqua.eliminarEloquaPorId(id);
         return new ResponseEntity<String>("Eliminado", HttpStatus.OK);
        // return new ResponseEntity<String>(service_eloqua.eliminar(id), HttpStatus.OK);
     }

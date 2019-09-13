@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.soaint.proyectoService.service.ServiceRightNow;
 
 @RestController
@@ -20,7 +19,7 @@ public class Controller_rightNow {
     @RequestMapping(value="/eliminar/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<String> BorrarPorId(@PathVariable("id") long id) throws Exception {
 
-    	rightNow.eliminar(id);
+    	rightNow.eliminarRightNowPorId(id);
         return new ResponseEntity<String>("Eliminado", HttpStatus.OK);
     	//return new ResponseEntity<String>(serviceCloudSales.eliminar(id), HttpStatus.OK);
     }

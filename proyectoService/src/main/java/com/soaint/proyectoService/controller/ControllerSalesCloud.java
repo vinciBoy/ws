@@ -19,7 +19,7 @@ public class ControllerSalesCloud{
     @RequestMapping(value="/eliminar/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<String> BorrarPorId(@PathVariable("id") long id) throws Exception {
 
-    	serviceCloudSales.eliminar(id);
+    	serviceCloudSales.eliminarSalesCloudPorId(id); 
         return new ResponseEntity<String>("Eliminado", HttpStatus.OK);
     	//return new ResponseEntity<String>(serviceCloudSales.eliminar(id), HttpStatus.OK);
     }

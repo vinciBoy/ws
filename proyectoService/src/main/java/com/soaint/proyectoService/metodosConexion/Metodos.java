@@ -17,24 +17,25 @@ public class Metodos {
 
 	static private final String USER_AGENT = "Mozilla/5.0";
 	static public HttpURLConnection con = null;
+	static String mensajeCaracteres;
 
-	//Método para conexion con url más id
+//--------------------------------------------Método para conexion con url más id---------------------------------------------------
 	public static void conexionId(long id, String url) throws Exception {
 
 		// conectar a la url
 		URL obj = new URL(url + id);
 		con = (HttpURLConnection) obj.openConnection();
 	}
-	
-	//Método para conexion con url más email
+
+//--------------------------------------------Método para conexion con url más email------------------------------------------------
 	public static void conexionEmail(String email, String url) throws Exception {
 
 		// conectar a la url
 		URL obj = new URL(url + "'" + email + "'");
 		con = (HttpURLConnection) obj.openConnection();
 	}
-	
-	//Método para autenticar
+
+//----------------------------------------------------Método para autenticar---------------------------------------------------------
 	public static void Autenticador(String key, String user) throws Exception {
 
 		// pasarlo a Base64 el autenticador y poner autorizaciones
@@ -43,9 +44,9 @@ public class Metodos {
 		con.setRequestProperty("Authorization", "Basic " + autorizacion);
 	}
 
-	// Método para el tipo de petición
+	//---------------------------------------------Método para el tipo de petición---------------------------------------------------
 	public static void conexionMetodo(String metodo) throws Exception {
-		
+
 		// el valor la petición
 		con.setRequestMethod(metodo);
 
@@ -53,7 +54,7 @@ public class Metodos {
 		con.setRequestProperty("User-Agent", USER_AGENT);
 	}
 
-	// Metodo de creación del contacto
+//-----------------------------------------------Metodo de creación del contacto-----------------------------------------------------
 	public static void crearContacto(String url, String key, String user, String json) throws Exception {
 
 		String autorizacion = user + ":" + key;
@@ -68,14 +69,26 @@ public class Metodos {
 		httpPost.setHeader("Accept", "application/json");
 		httpPost.setHeader("Content-type", "application/json");
 
-		System.out.println(con.getResponseCode() + "    " + url);
-		
 		client.execute(httpPost);
 		client.close();
 	}
-	
+
+//----------------------------------------------------Eliminar contacto por id------------------------------------------------------
+	public static void eliminar(long id, String url, String user, String key) throws Exception {
+
+		Metodos.conexionId(id, url);
+		Metodos.conexionMetodo("DELETE");
+		Metodos.Autenticador(key, user);
+
+		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		in.close();
+
+		con.disconnect();
+	}
+
+//------------------------------------------Recorro el json para devolver un string del json-----------------------------------------
 	public static String recorrerJson() throws IOException {
-		
+
 		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		String inputLine;
 		StringBuffer response = new StringBuffer();
@@ -84,14 +97,29 @@ public class Metodos {
 			response.append(inputLine);
 		}
 		in.close();
-		
+
 		return response.toString();
 	}
-	
+
+//-----------------------------------------------------Compruebo si existen tildes, ñ-------------------------------------------------
+	public static String comprobacionCaracteres(String api) throws IOException {
+
+		if (Metodos.con.getResponseCode() == 200) {
+			mensajeCaracteres = "Fué creado satisfatoriamente en " + api + "  😎🍻.\n";
+		} else {
+			mensajeCaracteres = "Error en el email de " + api + ", pude que contenga caracteres extraños";
+		}
+
+		return mensajeCaracteres;
+	}
+
+//----------------------------------------------Parseo letas para quitar tildes y las ñ------------------------------------------------
 	public static String parseLetras(String jsonSend) {
-        jsonSend = jsonSend.replace("ñ", "n").replace("Ñ", "N")
-        .replace("Á", "A").replace("á", "a").replace("É", "E").replace("é", "e").replace("Í", "I").replace("í", "i").replace("Ó", "O").replace("ó", "o").replace("Ú", "U").replace("ú", "u")
-        .replace("Ä", "A").replace("ä", "a").replace("Ë", "E").replace("ë", "e").replace("Ï", "I").replace("ï", "i").replace("Ö", "O").replace("ö", "o").replace("Ü", "U").replace("ü", "u");
-        return jsonSend;
-    }
+		jsonSend = jsonSend.replace("ñ", "n").replace("Ñ", "N").replace("Á", "A").replace("á", "a").replace("É", "E")
+				.replace("é", "e").replace("Í", "I").replace("í", "i").replace("Ó", "O").replace("ó", "o")
+				.replace("Ú", "U").replace("ú", "u").replace("Ä", "A").replace("ä", "a").replace("Ë", "E")
+				.replace("ë", "e").replace("Ï", "I").replace("ï", "i").replace("Ö", "O").replace("ö", "o")
+				.replace("Ü", "U").replace("ü", "u");
+		return jsonSend;
+	}
 }

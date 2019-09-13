@@ -1,8 +1,5 @@
 package com.soaint.proyectoService.service;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -25,7 +22,7 @@ public class ServiceEloqua {
 	String urlEloquaEmail = PropertiesReader.getUrlEloquaEmail();
 	String usuario = PropertiesReader.getUsuarioEloquaCreacion();
 
-	// HTTP GET request
+//---------------------------------------------Buscar contacto por email en Eloqua---------------------------------------------------
 	public Boolean buscarEmailEloqua(String email) throws Exception {
 
 		try {
@@ -49,6 +46,7 @@ public class ServiceEloqua {
 		}
 	}
 
+//-----------------------------------------------Serializar el json que recojo------------------------------------------------------
 	public String serializarObjecto(String jsonSend) {
 
 		try {
@@ -73,22 +71,15 @@ public class ServiceEloqua {
 		}
 	}
 
-	// Crear Usuario de Eloqua
+//--------------------------------------------------Crear contacto para Eloqua------------------------------------------------------
 	public void crearEloqua(String json) throws Exception {
 
 		Metodos.crearContacto(urlEloquaCreacion, clave, usuario, json);
 	}
+	
+//--------------------------------------------Eliminar contacto por id en Eloqua------------------------------------------------------
+	public void eliminarEloquaPorId(long id) throws Exception {
 
-	// HTTP POST request
-	public void eliminar(long id) throws Exception {
-
-		Metodos.conexionId(id, urlEloqua);
-		Metodos.conexionMetodo("DELETE");
-		Metodos.Autenticador(clave, usuario);
-
-		BufferedReader in = new BufferedReader(new InputStreamReader(Metodos.con.getInputStream()));
-		in.close();
-
-		Metodos.con.disconnect();
+		Metodos.eliminar(id, urlEloqua, usuario, clave);
 	}
 }

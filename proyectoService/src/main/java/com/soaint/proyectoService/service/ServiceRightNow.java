@@ -1,8 +1,5 @@
 package com.soaint.proyectoService.service;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -23,26 +20,26 @@ public class ServiceRightNow<HttpClient> {
 	String mensaje;
 
 	String urlRn = PropertiesReader.getUrlRightNow();
+	String urlRnApi = PropertiesReader.getUrlRightNowApi();
+	String urlRnMail = PropertiesReader.getUrlRightNowEmail();
 	String clave = PropertiesReader.getClaveRightNow();
 	String usuario = PropertiesReader.getUsuarioRightNow();
-	String urlRnCrear = PropertiesReader.getUrlRightNowCreacion();
 
-	// HTTP GET request
+//-------------------------------------------Buscar contacto por email en Right Now--------------------------------------------------
 	public Boolean buscarEmailRightNow(String email) throws Exception {
 
 		try {
 			
-			Metodos.conexionEmail(email, urlRnCrear);
+			Metodos.conexionEmail(email, urlRn + urlRnApi + urlRnMail);
 			Metodos.conexionMetodo("GET");
 			Metodos.Autenticador(clave, usuario);
 
 			// sacar el parametro que esta dentro de un array
-			JSONObject jsonObject = new JSONObject(Metodos.recorrerJson());//meto lo que me devuelve el método
+			JSONObject jsonObject = new JSONObject(Metodos.recorrerJson());//meto el json que me devuelve el método
 			JSONArray items = (JSONArray) jsonObject.get("items");
 			contacto.setId(items.getJSONObject(0).getInt("id"));
 			contacto.setMail(email);
 
-			System.out.println(Metodos.con.getResponseCode());
 			Metodos.con.disconnect();
 
 			return true;
@@ -53,6 +50,7 @@ public class ServiceRightNow<HttpClient> {
 		}
 	}
 
+//-----------------------------------------------Serializar el json que recojo------------------------------------------------------
 	public String serializarObjecto(String jsonSend) {
 
 		JSONObject jsonObject = new JSONObject(jsonSend);
@@ -69,23 +67,15 @@ public class ServiceRightNow<HttpClient> {
 		}
 	}
 
-	// HTTP POST request
+//------------------------------------------------Crear contacto para Right Now-----------------------------------------------------
 	public void crearRightNow(String json) throws Exception {
 		
-		 Metodos.crearContacto(urlRn, clave, usuario, json);
+		 Metodos.crearContacto(urlRn + urlRnApi, clave, usuario, json);
 	}
 
-	// HTTP POST request
-	public void eliminar(long id) throws Exception {
+//--------------------------------------------Eliminar contacto por id en Right Now--------------------------------------------------
+	public void eliminarRightNowPorId(long id) throws Exception {
 
-			Metodos.conexionId(id, urlRn);
-			Metodos.Autenticador(clave, usuario);
-			Metodos.conexionMetodo("DELETE");
-
-			BufferedReader in = new BufferedReader(new
-			InputStreamReader(Metodos.con.getInputStream()));
-			in.close();
-
-			Metodos.con.disconnect();
+		Metodos.eliminar(id, urlRn + urlRnApi + "/", usuario, clave);
 	}
 }
