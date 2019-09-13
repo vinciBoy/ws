@@ -21,20 +21,21 @@ public class ServiceSalesCloud {
 	ContactOSC contactOSC = new ContactOSC();
 	Lead lead = new Lead();
 	String mensaje;
-
+	
 	String urlSalesCloud = PropertiesReader.getUrlSalesCloud();
-	String clave = PropertiesReader.getClaveSalesCloud();
-	String usuario = PropertiesReader.getUsuarioSalesCloud();
-	String urlMailSalesCloud = PropertiesReader.getUrlMailSalesCloud();
-	String urlSalesCloudCrear = PropertiesReader.getUrlSalesCloudCreacion();
+	String urlSalesCloudApi = PropertiesReader.getUrlSalesCloudApi();
+	String urlSalesCloudMail = PropertiesReader.getUrlSalesCloudMail();
 	String urlSalesCloudLeed = PropertiesReader.getUrlSalesCloudLeed();
 	String urlSalesCloudLeedQuery = PropertiesReader.getUrlSalesCloudLeedQuery();
+	
+	String clave = PropertiesReader.getClaveSalesCloud();
+	String usuario = PropertiesReader.getUsuarioSalesCloud();
 
 //--------------------------------------------Buscar contacto por email en Sales Cloud--------------------------------------------
 	public Boolean buscarEmailSalesCloud(String email) throws Exception {
 
 		try {
-			Metodos.conexionEmail(email, urlMailSalesCloud);
+			Metodos.conexionEmail(email, urlSalesCloud + urlSalesCloudApi + urlSalesCloudMail);
 			Metodos.conexionMetodo("GET");
 			Metodos.Autenticador(clave, usuario);
 
@@ -57,7 +58,7 @@ public class ServiceSalesCloud {
 //---------------------------------------------Buscar lead por id en Sales Cloud---------------------------------------------------
 	public void buscarOSCLeadPorId(long id) throws Exception {
 
-		Metodos.conexionId(id, urlSalesCloudLeedQuery);
+		Metodos.conexionId(id, urlSalesCloud + urlSalesCloudLeed + urlSalesCloudLeedQuery);
 		Metodos.conexionMetodo("GET");
 		Metodos.Autenticador(clave, usuario);
 
@@ -72,7 +73,7 @@ public class ServiceSalesCloud {
 //--------------------------------------------Eliminar lead por id en Sales Cloud---------------------------------------------------
 	public void eliminarLead(Long id) throws Exception {
 
-		Metodos.conexionId(id, urlSalesCloudLeed + "/");
+		Metodos.conexionId(id, urlSalesCloud + urlSalesCloudLeed + "/");
 		Metodos.conexionMetodo("DELETE");
 		Metodos.Autenticador(clave, usuario);
 
@@ -107,7 +108,7 @@ public class ServiceSalesCloud {
 //-----------------------------------------------Crear contacto en Sales Cloud------------------------------------------------------
 	public void CrearSalesCloud(String json) throws Exception {
 
-		Metodos.crearContacto(urlSalesCloudCrear, clave, usuario, json);
+		Metodos.crearContacto(urlSalesCloud + urlSalesCloudApi, clave, usuario, json);
 	}
 
 //--------------------------------------------------Crear lead en Sales Cloud-------------------------------------------------------
@@ -116,12 +117,12 @@ public class ServiceSalesCloud {
 		lead = new Lead(contacto.getId(), contactOSC.getFirstName());
 		String jsonLead = new ObjectMapper().writeValueAsString(lead);
 
-		Metodos.crearContacto(urlSalesCloudLeed, clave, usuario, jsonLead);
+		Metodos.crearContacto(urlSalesCloud + urlSalesCloudLeed, clave, usuario, jsonLead);
 	}
 	
 //--------------------------------------------Eliminar contacto por id en Sales Cloud------------------------------------------------------
 		public void eliminarSalesCloudPorId(long id) throws Exception {
 
-			Metodos.eliminar(id, urlSalesCloud, usuario, clave);
+			Metodos.eliminar(id, urlSalesCloud + urlSalesCloudApi + "/", usuario, clave);
 		}
 }

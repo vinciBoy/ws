@@ -28,6 +28,6 @@ public class Contact {
 	}
 	
 	public String toStringEliminar() {
-		return "- Id: " + id + "\n" + "- Email: " + mail + "\n";
+		return "- Id: " + id;
 	}
 }

@@ -19,10 +19,10 @@ public class ServiceTodos {
 		
 		if (rn.buscarEmailRightNow(email)) {
 			rn.eliminarRightNowPorId(rn.contacto.getId());
-			mensajeRightNow = "---Datos del contacto en Right Now---\n\n" + rn.contacto.toStringEliminar()
-			+ "\nEl contacto fué eliminado satisfatoriamente de Right Now\n";
+			mensajeRightNow = rn.contacto.toStringEliminar() + " de Right Now"
+			+ "\nEl contacto fué eliminado satisfatoriamente de Right Now  😲 \n";
 		} else {
-			mensajeRightNow = "El contacto no existe en Right Now";
+			mensajeRightNow = "El contacto no existe en Right Now 😓";
 		}
 	}
 	
@@ -31,10 +31,10 @@ public class ServiceTodos {
 
 		if (eloqua.buscarEmailEloqua(email)) {
 			eloqua.eliminarEloquaPorId(eloqua.contacto.getId());
-			mensajeEloqua = "---Datos del contacto de Eloqua---\n\n" + eloqua.contacto.toStringEliminar()
-			+ "\nEl contacto fué borrado satisfatoriamente de Eloqua\n";
+			mensajeEloqua = eloqua.contacto.toStringEliminar()  + " de Eloqua"
+			+ "\nEl contacto fué borrado satisfatoriamente de Eloqua  😲 \n";
 		} else {
-			mensajeEloqua = "El contacto no existe en Eloqua";
+			mensajeEloqua = "El contacto no existe en Eloqua 😓";
 		}
 	}
 	
@@ -43,9 +43,9 @@ public class ServiceTodos {
 		
 		if (osc.buscarEmailSalesCloud(email)) {
 			osc.buscarOSCLeadPorId(osc.contacto.getId()); 			
-			mensajeSalesCloudLead = "Los leads del contacto fueron borrados satisfatoriamente Oracle Sales Cloud\n";
+			mensajeSalesCloudLead = "Los leads del contacto fueron borrados satisfatoriamente Oracle Sales Cloud 😲 \n";
 		} else {
-			mensajeSalesCloudLead = "No existen leads en este contacto de Sales Cloud";
+			mensajeSalesCloudLead = "No existen leads en este contacto de Sales Cloud 😓";
 		}
 	}
 	
@@ -54,10 +54,10 @@ public class ServiceTodos {
 		
 		if (osc.buscarEmailSalesCloud(email)) {
 			osc.eliminarSalesCloudPorId(osc.contacto.getId());
-			mensajeSalesCloud = "---Datos del contacto---\n\n" + osc.contacto.toStringEliminar()
-			+ "\nEl contacto fué borrado satisfatoriamente Oracle Sales Cloud";
+			mensajeSalesCloud = osc.contacto.toStringEliminar() + " de Sales Cloud"
+			+ "\nEl contacto fué borrado satisfatoriamente Oracle Sales Cloud 😲 ";
 		} else {
-			mensajeSalesCloud = "El contacto no existe en Sales Cloud";
+			mensajeSalesCloud = "El contacto no existe en Sales Cloud 😓";
 		}
 	}
 
@@ -79,7 +79,7 @@ public class ServiceTodos {
 		}
 	}
 	
-//--------------------------------------------------Crear contacto Right Now----------------------------------------------------
+//--------------------------------------------------Crear contacto Right Now--------------------------------------------------
 	public void creacionRn(String json) throws Exception {
 		
 		if (!rn.buscarEmailRightNow(contactoTodos.getMail())){
@@ -87,11 +87,11 @@ public class ServiceTodos {
 			mensajeRightNow = Metodos.comprobacionCaracteres("Right Now");
 
 		} else {
-			mensajeRightNow = "¡¡¡¡Error en la creación del contacto en Right Now puede que el email ya exista!!!!";
+			mensajeRightNow = "¡¡¡¡Error en la creación del contacto en Right Now puede que el email ya exista!!!! 😓";
 		}
 	}
 	
-//-----------------------------------------------------Crear contacto Eloqua------------------------------------------------------
+//-----------------------------------------------------Crear contacto Eloqua--------------------------------------------------
 	public void creacionElo(String json) throws Exception {
 		
 		if (!eloqua.buscarEmailEloqua(contactoTodos.getMail())) {
@@ -99,22 +99,22 @@ public class ServiceTodos {
 			mensajeEloqua = Metodos.comprobacionCaracteres("Eloqua");
 			
 		} else {
-			mensajeEloqua = "¡¡¡¡Error en la creación del contacto en Eloqua puede que el email ya exista!!!!";
+			mensajeEloqua = "¡¡¡¡Error en la creación del contacto en Eloqua puede que el email ya exista!!!! 😓";
 		}
 	}
 	
-//---------------------------------------------------Crear contacto Sales Cloud---------------------------------------------------
+//---------------------------------------------------Crear contacto Sales Cloud-----------------------------------------------
 	public void creacionOSC(String json) throws Exception {
 		
 		if (!osc.buscarEmailSalesCloud(contactoTodos.getMail())) {
 			osc.serializarObjecto(json);
 			mensajeSalesCloud = Metodos.comprobacionCaracteres("Sales Cloud");
 		} else {
-			mensajeSalesCloud = "¡¡¡¡Error en la creación del contacto en Sales Cloud puede que el email ya exista!!!!";
+			mensajeSalesCloud = "¡¡¡¡Error en la creación del contacto en Sales Cloud puede que el email ya exista!!!! 😓";
 		}
 	}
 	
-//------------------------------------Crear todos los contacto y el lead de Sales Cloud---------------------------------------
+//------------------------------------Crear todos los contacto y el lead de Sales Cloud----------------------------------------
 	public String crearTodos(String json) {
 
 		JSONObject jsonObject = new JSONObject(json);
@@ -134,7 +134,7 @@ public class ServiceTodos {
 				mensajeSalesCloudLead = "Fallo en la creación del lead para Sales CLoud";
 			}
 
-			return "El contacto: \n\n " + contactoTodos.toStringCrear() + "\n" + mensajeRightNow 
+			return "El contacto: \n\n" + contactoTodos.toStringCrear() + "\n" + mensajeRightNow 
 					+ "\n" + mensajeEloqua + "\n" + mensajeSalesCloud + "\n" + mensajeSalesCloudLead;
 
 		} catch (Exception e) {

@@ -15,18 +15,19 @@ public class ServiceEloqua {
 
 	Contact contacto = new Contact();
 	String mensaje;
-
+	
 	String urlEloqua = PropertiesReader.getUrlEloqua();
-	String clave = PropertiesReader.getClaveEloqua();
-	String urlEloquaCreacion = PropertiesReader.getUrlEloquaCreacion();
+	String urlEloquaApi = PropertiesReader.getUrlEloquaApi();
 	String urlEloquaEmail = PropertiesReader.getUrlEloquaEmail();
+	
 	String usuario = PropertiesReader.getUsuarioEloquaCreacion();
+	String clave = PropertiesReader.getClaveEloqua();
 
 //---------------------------------------------Buscar contacto por email en Eloqua---------------------------------------------------
 	public Boolean buscarEmailEloqua(String email) throws Exception {
 
 		try {
-			Metodos.conexionEmail(email, urlEloquaEmail);
+			Metodos.conexionEmail(email, urlEloqua + urlEloquaApi + urlEloquaEmail);
 			Metodos.conexionMetodo("GET");
 			Metodos.Autenticador(clave, usuario);
 
@@ -74,12 +75,12 @@ public class ServiceEloqua {
 //--------------------------------------------------Crear contacto para Eloqua------------------------------------------------------
 	public void crearEloqua(String json) throws Exception {
 
-		Metodos.crearContacto(urlEloquaCreacion, clave, usuario, json);
+		Metodos.crearContacto(urlEloqua + urlEloquaApi, clave, usuario, json);
 	}
 	
 //--------------------------------------------Eliminar contacto por id en Eloqua------------------------------------------------------
 	public void eliminarEloquaPorId(long id) throws Exception {
 
-		Metodos.eliminar(id, urlEloqua, usuario, clave);
+		Metodos.eliminar(id, urlEloqua + urlEloquaApi + "/", usuario, clave);
 	}
 }

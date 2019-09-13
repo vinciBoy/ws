@@ -38,7 +38,7 @@ public class ServiceRightNow<HttpClient> {
 			JSONObject jsonObject = new JSONObject(Metodos.recorrerJson());//meto el json que me devuelve el método
 			JSONArray items = (JSONArray) jsonObject.get("items");
 			contacto.setId(items.getJSONObject(0).getInt("id"));
-			contacto.setMail(email);
+			//contacto.setMail(email);
 
 			Metodos.con.disconnect();
 
