@@ -115,31 +115,35 @@ public class ServiceTodos {
 	}
 	
 //------------------------------------Crear todos los contacto y el lead de Sales Cloud----------------------------------------
-	public String crearTodos(String json) {
+		public String crearTodos(String json) {
 
-		JSONObject jsonObject = new JSONObject(json);
-		contactoTodos.setMail(jsonObject.getString("address"));
-		contactoTodos.setNombre(jsonObject.getString("first"));
-		contactoTodos.setApellido(jsonObject.getString("last"));
+			JSONObject jsonObject = new JSONObject(json);
+			contactoTodos.setMail(jsonObject.getString("address"));
+			contactoTodos.setNombre(jsonObject.getString("first"));
+			contactoTodos.setApellido(jsonObject.getString("last"));
 
-		try {
+			try {
 
-			creacionRn(json);
-			creacionElo(json);
-			creacionOSC(json);
-			if (osc.buscarEmailSalesCloud(contactoTodos.getMail())) {
-				osc.crearLead();
-				mensajeSalesCloudLead = "Lead creado satisfatoriamente en Sales Cloud 😎🍻";
-			}else {
-				mensajeSalesCloudLead = "Fallo en la creación del lead para Sales CLoud";
+				creacionRn(json);
+				creacionElo(json);
+				creacionOSC(json);
+				if (osc.buscarEmailSalesCloud(contactoTodos.getMail())) {
+					if(!osc.buscarLeadSalesCloudPorMail(contactoTodos.getMail())) {
+						osc.crearLead();
+						mensajeSalesCloudLead = "Lead creado satisfatoriamente en Sales Cloud 😎🍻";
+					}
+					else { mensajeSalesCloudLead = "¡¡¡¡Error en la creación del lead en Sales Cloud Ya existe un lead para este contacto!!!! 😓";}
+				}else 
+				{
+					mensajeSalesCloudLead = "Fallo en la creación del lead para Sales CLoud";
+				}
+
+				return "El contacto: \n\n" + contactoTodos.toStringCrear() + "\n" + mensajeRightNow 
+						+ "\n" + mensajeEloqua + "\n" + mensajeSalesCloud + "\n" + mensajeSalesCloudLead;
+
+			} catch (Exception e) {
+
+				return "Error en la creación de los usuarios";
 			}
-
-			return "El contacto: \n\n" + contactoTodos.toStringCrear() + "\n" + mensajeRightNow 
-					+ "\n" + mensajeEloqua + "\n" + mensajeSalesCloud + "\n" + mensajeSalesCloudLead;
-
-		} catch (Exception e) {
-
-			return "Error en la creación de los usuarios";
 		}
-	}
 }

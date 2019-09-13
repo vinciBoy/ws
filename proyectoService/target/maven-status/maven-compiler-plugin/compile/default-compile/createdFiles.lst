@@ -16,3 +16,4 @@ com\soaint\proyectoService\contactRn\Emails.class
 com\soaint\proyectoService\contactOSC\ContactOSC.class
 com\soaint\proyectoService\service\ServiceSalesCloud.class
 com\soaint\proyectoService\security\PropertiesReader.class
+com\soaint\proyectoService\contactOSC\Lead.class

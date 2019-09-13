@@ -27,7 +27,7 @@ public class ServiceSalesCloud {
 	String urlSalesCloudMail = PropertiesReader.getUrlSalesCloudMail();
 	String urlSalesCloudLeed = PropertiesReader.getUrlSalesCloudLeed();
 	String urlSalesCloudLeedQuery = PropertiesReader.getUrlSalesCloudLeedQuery();
-	
+	String urlSalesCloudLeddQueryMail = PropertiesReader.getUrlSalesCloudLeedQueryEmail();
 	String clave = PropertiesReader.getClaveSalesCloud();
 	String usuario = PropertiesReader.getUsuarioSalesCloud();
 
@@ -69,6 +69,21 @@ public class ServiceSalesCloud {
 			eliminarLead(Long.parseLong(items.getJSONObject(i).get("LeadId").toString()));
 		}
 	}
+	
+//--------------------------------------------Buscar lead por email en Sales Cloud--------------------------------------------------
+		public Boolean buscarLeadSalesCloudPorMail(String email) throws Exception {
+
+				Metodos.conexionEmail(email, urlSalesCloud + urlSalesCloudLeed + urlSalesCloudLeddQueryMail);
+				Metodos.conexionMetodo("GET");
+				Metodos.Autenticador(clave, usuario);
+
+				JSONObject obj = new JSONObject(Metodos.recorrerJson());// recojo el json
+				JSONArray items = obj.getJSONArray("items");
+				Metodos.con.disconnect();
+				
+				if(items.length() != 0) { System.out.println("existe lead"); return true; }
+				else { System.out.println("no existe lead"); return false;}
+			}
 
 //--------------------------------------------Eliminar lead por id en Sales Cloud---------------------------------------------------
 	public void eliminarLead(Long id) throws Exception {

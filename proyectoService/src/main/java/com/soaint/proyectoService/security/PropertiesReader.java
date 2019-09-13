@@ -26,6 +26,7 @@ public class PropertiesReader {
     public static String getUrlSalesCloudMail(){  return PROPERTIES.getString("url.osc.email"); }
     public static String getUrlSalesCloudLeed(){  return PROPERTIES.getString("url.osc.lead"); }
     public static String getUrlSalesCloudLeedQuery(){  return PROPERTIES.getString("url.osc.lead.query"); }
+    public static String getUrlSalesCloudLeedQueryEmail() { return PROPERTIES.getString("url.osc.lead.query.Email"); }
     public static String getClaveSalesCloud(){  return PROPERTIES.getString("clave.osc"); }
     public static String getUsuarioSalesCloud(){  return PROPERTIES.getString("usuario.osc"); }
 }
