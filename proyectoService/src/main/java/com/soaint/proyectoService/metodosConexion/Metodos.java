@@ -107,6 +107,7 @@ public class Metodos {
 		if (Metodos.con.getResponseCode() == 200) {
 			mensajeCaracteres = "Fué creado satisfatoriamente en " + api + "  😎🍻.\n";
 		} else {
+			System.out.println(Metodos.con.getResponseCode());
 			mensajeCaracteres = "Error en el email de " + api + ", pude que contenga caracteres extraños";
 		}
 
